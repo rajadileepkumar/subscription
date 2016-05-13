@@ -56,4 +56,39 @@ function admin_custom_js(){
 	wp_enqueue_script('jQuery');
     wp_enqueue_script('bootstrap-js',plugin_dir_url(__FILE__ ).'js/bootstrap.min.js');	
 }
+
+function subscription_category(){
+	$myListTable = new Subscription_List_Table();
+	$myListTable->prepare_items(); 
+
+	 ?>
+	 <div class="wrap">	
+		<div id="icon-users" class="icon32"><br/></div>
+		<h2>Subscription Categories</h2>
+		<?php if(!empty($myListTable->notify)) { ?>
+		<div id="message" class="updated below-h2">
+				<?php 
+						if( isset($_POST['s']) ){
+			                $myListTable->prepare_items($_POST['s']);
+			        } else {
+			                $myListTable->prepare_items();
+			        }
+		        ?>
+		</div>
+		<?php } ?>
+		<!-- Forms are NOT created automatically, so you need to wrap the table in one to use features like bulk actions -->
+		<form id="sent-sms-filter" method="post">
+			<!-- For plugins, we also need to ensure that the form posts back to our current page -->
+			<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
+			<!-- Now we can render the completed list table -->
+			<?php 
+				$myListTable->search_box( 'search', 'search_id' );
+				$myListTable->display()
+			?>
+			<?php  ?>
+		</form>
+		
+	</div>
+	<?php
+}
 ?>
