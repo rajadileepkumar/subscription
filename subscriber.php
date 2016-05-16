@@ -37,24 +37,34 @@ function subscription_menu(){
 
 	add_submenu_page(null,'Update Category','Update','manage_options','subscription_category_delete','subscription_category_delete');
 
+	$menu2 = add_submenu_page('subscription-menu','Add Subscriber','Add Subscriber','manage_options','new_subscriber','add_subscriber');
+	
 	add_action('admin_print_styles-'.$menu,'admin_custom_css');
 	add_action('admin_print_scripts-'.$menu,'admin_custom_js');
+	add_action('admin_print_styles-'.$menu2,'admin_custom_css');
+	add_action('admin_print_scripts-'.$menu2,'admin_custom_js');
 }
 
 define('PATH',plugin_dir_path(__FILE__ ));
 include_once PATH .'include/subscription_category.php';
 include_once PATH .'include/subscription_category.list.php';
 include_once PATH .'include/subscription_category_delete.php';
+include_once PATH .'include/add_subscriber.php';
 
 function admin_custom_css(){
 	wp_enqueue_style('bootstrap',plugin_dir_url(__FILE__ ).'css/bootstrap.css');
     wp_enqueue_style('font-awesome',plugin_dir_url(__FILE__ ).'css/font-awesome.css' );
-    wp_enqueue_style('style',plugin_dir_url(__FILE__ ).'/css/style.css');
+    wp_enqueue_style('style',plugin_dir_url(__FILE__ ).'css/style.css');
+    wp_enqueue_style('bootstrap-select',plugin_dir_url(__FILE__ ).'css/bootstrap-select.min.css');
+    wp_enqueue_style('bootstrap-multi-select',plugin_dir_url(__FILE__ ).'css/bootstrap-multiselect.css');
 }
 
 function admin_custom_js(){
 	wp_enqueue_script('jQuery');
-    wp_enqueue_script('bootstrap-js',plugin_dir_url(__FILE__ ).'js/bootstrap.min.js');	
+    wp_enqueue_script('bootstrap-js',plugin_dir_url(__FILE__ ).'js/bootstrap.min.js');
+    wp_enqueue_script('bootstrap-select-js',plugin_dir_url(__FILE__ ).'js/bootstrap-select.min.js');
+    wp_enqueue_script('bootstrap-multiselect-js',plugin_dir_url(__FILE__ ).'js/bootstrap-multiselect.min.js');
+    wp_enqueue_script('custom-js',plugin_dir_url(__FILE__ ).'js/custom.js');	
 }
 
 function subscription_category(){
@@ -82,7 +92,7 @@ function subscription_category(){
 			<input type="hidden" name="page" value="<?php echo $_REQUEST['page'] ?>" />
 			<!-- Now we can render the completed list table -->
 			<?php 
-				$myListTable->search_box( 'search', 'search_id' );
+				//$myListTable->search_box( 'search', 'search_id' );
 				$myListTable->display()
 			?>
 			<?php  ?>
@@ -91,4 +101,6 @@ function subscription_category(){
 	</div>
 	<?php
 }
+
+
 ?>
